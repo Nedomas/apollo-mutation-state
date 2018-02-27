@@ -9,13 +9,13 @@ import createObservableState from './observable-state';
  * @property {string} propName - The name of the prop that will be used to pass the mutation state object
  * @property {boolean} propagateError - Define if the hoc should propagate the mutation error. The hoc still change to state to "error" even if propagate error is false
  * @property {boolean} wrapper - Define if the hoc is beign used as a wrapper. If yes, then it will pass a method "wrap" so you can wrap the "mutate" call
- * @property {string} wrapName - Define the name of the "wrap" method. The wrap method is only passed if wrapper is true 
+ * @property {string} wrapName - Define the name of the "wrap" method. The wrap method is only passed if wrapper is true
  */
 
 /**
- * A hoc for track a mutation state. There should be one hoc for each mutation. 
+ * A hoc for track a mutation state. There should be one hoc for each mutation.
  * If using two graphql hocs with two mutations, then there should be 2 hocs for tracking their state
- * @param {MutationStateOptions} options - Mutation state options 
+ * @param {MutationStateOptions} options - Mutation state options
  */
 export default ({ mutationName = 'mutate', propName = 'mutation', propagateError = false, wrapper = false, wrapName = 'wrapMutate' } = {}) => (WrappedComponent) => {
   class MutationState extends PureComponent {
@@ -25,6 +25,7 @@ export default ({ mutationName = 'mutate', propName = 'mutation', propagateError
         loading: false,
         error: null,
         success: false,
+        data: {},
       };
       this.observableState = createObservableState(this.state);
     }
@@ -50,12 +51,13 @@ export default ({ mutationName = 'mutate', propName = 'mutation', propagateError
         loading: true,
         error: null,
         success: false,
+        data: {},
       });
       return mutatePromise.then((response) => {
         this.setMutationState({
           success: true,
           loading: false,
-          response,
+          data: response.data,
         });
         return response;
       }).catch((error) => {
@@ -82,6 +84,7 @@ export default ({ mutationName = 'mutate', propName = 'mutation', propagateError
         loading: false,
         error: null,
         success: false,
+        data: {},
       });
     }
 
