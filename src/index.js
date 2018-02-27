@@ -22,6 +22,7 @@ export default ({ mutationName = 'mutate', propName = 'mutation', propagateError
     constructor(props) {
       super(props);
       this.state = {
+        initialized: false,
         loading: false,
         error: null,
         success: false,
@@ -48,6 +49,7 @@ export default ({ mutationName = 'mutate', propName = 'mutation', propagateError
 
     wrapMutate = (mutatePromise) => {
       this.setMutationState({
+        initialized: true,
         loading: true,
         error: null,
         success: false,
@@ -81,6 +83,7 @@ export default ({ mutationName = 'mutate', propName = 'mutation', propagateError
 
     clearState = () => {
       this.setMutationState({
+        initialized: false,
         loading: false,
         error: null,
         success: false,
