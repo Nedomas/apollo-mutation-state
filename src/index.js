@@ -55,6 +55,7 @@ export default ({ mutationName = 'mutate', propName = 'mutation', propagateError
         this.setMutationState({
           success: true,
           loading: false,
+          response,
         });
         return response;
       }).catch((error) => {
